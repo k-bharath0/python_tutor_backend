@@ -7,7 +7,7 @@ process.on("unhandledRejection", (reason, promise) => {
   console.error("Unhandled Promise Rejection:", reason);
 });
 
-const token = "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";
+const token = process.env["GITHUB_TOKEN"];
 const endpoint = "https://models.inference.ai.azure.com";
 const modelName = "gpt-4o";
 
