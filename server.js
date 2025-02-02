@@ -56,7 +56,6 @@ app.post("/chat",async (req,res)=>{
     // );
     //const response = await Promise.race([
       const response = await client(currentApiKey).path("/chat/completions").post({
-    client(currentApiKey).path("/chat/completions").post({
         body: {
           messages: [
             { role:"system", content: `You are a **fun, friendly, and patient Python tutor for kids** who have never coded before.  
