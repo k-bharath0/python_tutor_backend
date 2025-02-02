@@ -1,0 +1,23 @@
+# Node.js dependencies
+node_modules/
+npm-debug.log
+package-lock.json
+
+# Environment variables
+.env
+.DS_Store
+
+# Logs
+logs/
+*.log
+yarn-debug.log
+yarn-error.log
+
+# Output files
+dist/
+build/
+coverage/
+
+# System files
+Thumbs.db
+*.swp
