@@ -44,14 +44,18 @@ let apiKeyResetTimeout = null;    // Timeout variable to reset API key
 
 app.post("/chat",async (req,res)=>{
     const { message, chatHistory } = req.body;
-    const TIMEOUT_DURATION = 25000;
+    // const controller = new AbortController();  // Create a new AbortController
+    // const timeout = setTimeout(() => controller.abort(), 15000); // Set a 15-second timeout
+    //const TIMEOUT_DURATION = 25000;
 
     try{
+      console.log(currentApiKey);
       // **Create a timeout promise**
-      const timeoutPromise = new Promise((_, reject) => 
-        setTimeout(() => reject(new Error("Request timeout. The AI model is taking too long to respond.")), TIMEOUT_DURATION)
-    );
-    const response = await Promise.race([
+    //   const timeoutPromise = new Promise((_, reject) => 
+    //     setTimeout(() => reject(new Error("Request timeout. The AI model is taking too long to respond.")), TIMEOUT_DURATION)
+    // );
+    //const response = await Promise.race([
+      const response = await client(currentApiKey).path("/chat/completions").post({
     client(currentApiKey).path("/chat/completions").post({
         body: {
           messages: [
@@ -84,11 +88,11 @@ Your job is to **teach Python from scratch, step by step**, using **short respon
           max_tokens: 1000,
           model: modelName
         },
-      }),
-      timeoutPromise  // **Timeout will reject the promise after 25 sec**
-        ]);
+     });
+      //timeoutPromise  // **Timeout will reject the promise after 15 sec**
+       // ]);
       //clearTimeout(timeout);  // Clear timeout after successful response
-      console.log("Full AI Response:", JSON.stringify(response.body, null, 2));
+     // console.log("Full AI Response:", JSON.stringify(response.body, null, 2));
       if (!response.body || !response.body.choices || response.body.choices.length === 0) {
         return res.status(500).json({ error: "AI model did not return a response." });
     }
